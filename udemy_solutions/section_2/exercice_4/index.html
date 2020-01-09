@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="../../vue.js"></script>
 </head>
 <body>
@@ -10,30 +11,32 @@
     <!-- 1) Start the Effect with the Button. The Effect should alternate the "highlight" or "shrink" class on each new setInterval tick (attach respective class to the div with id "effect" below) -->
     <div>
       <button @click="startEffect">Start Effect</button>
-      <div id="effect"></div>
+      
+      <div id="effect" :class="[{shrink: !highlight}, {highlight:highlight}]"></div>
+      
     </div>
     <!-- 2) Create a couple of CSS classes and attach them via the array syntax -->
-    <div>I got no class :(</div>
+    <div :class="[{baseStyles:true}]">I got no class :(</div>
     <!-- 3) Let the user enter a class (create some example classes) and attach it -->
     <div>
-      <input type="text">
-      <div></div>
-    </div>
+      <input type="text" v-model="userClass">
+      <div :class="[userClass]">HELLO WORLD</div>
+    </divv>
     <!-- 4) Let the user enter a class and enter true/ false for another class (create some example classes) and attach the classes -->
     <div>
+      <input type="text" v-model="anotherClass">
       <input type="text">
-      <input type="text">
-      <div></div>
+      <div :class="[anotherClass, {highlight:true}]">HELLO WORLD 2</div>
     </div>
     <!-- 5) Repeat 3) but now with values for styles (instead of class names). Attach the respective styles.  -->
     <div>
-      <input type="text">
+      <input type="text" :style="{backgroundColor:gray}">
       <div></div>
     </div>
     <!-- 6) Create a simple progress bar with setInterval and style bindings. Start it by hitting the below button. -->
     <div>
-      <button>Start Progress</button>
-      <div></div>
+      <button @click="startProgress">Start Progress</button>
+      <div :style="progressBar" >PROG</div>
     </div>
   </div>
   
@@ -44,13 +47,39 @@
 new Vue({
   el: '#exercise',
   data: {
+    highlight : false,
+    userClass: '',
+    anotherClass:'',
+    progressBar: {
+    width: '0px',
+      backgroundColor: 'red'
+    }
 
   },
   methods: {
     startEffect: function() {
-    
+    var vm = this
+    setInterval(function(){
+    vm.highlight = !vm.highlight 
+    }, 1000)
+    },
+    startProgress: function() {
+    var vm = this
+    setInterval(function(){
+    vm.highlight = !vm.highlight 
+    }, 1000)
+    },
+    startProgress: function() {
+    var vm = this;
+    var width = 0;
+     
+    setInterval(function() {
+      width = width + 10;
+      vm.progressBar.width = width + 'px';
+      }, 500);
     }
   }
 });
+
 
 </script>
